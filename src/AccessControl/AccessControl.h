@@ -24,8 +24,8 @@ extern char BackupCode[];                 ///< Code de secours pour déverrouill
 extern unsigned int OpenDelayCode;        ///< Temps de déverrouillage par badge ou code en secondes.
 extern unsigned int OpenDelayButton;      ///< Temps de déverrouillage par bouton en secondes.
 extern unsigned int TempoOuverture;       ///< Compteur temporaire pour contrôler la durée d'ouverture.
-extern DateTime DebutAcces;               ///< Date et heure de début de l'accès autorisé.
-extern DateTime FinAcces;                 ///< Date et heure de fin de l'accès autorisé.
+extern DateTime DebutAcces;               ///< Date et heure de début de l'accès autorisé au format yyyy, MM, dd, hh, mm, ss.
+extern DateTime FinAcces;                 ///< Date et heure de fin de l'accès autorisé au format yyyy, MM, dd, hh, mm, ss.
 
 // Variable stuff (Variables diverses)
 #define PINLIMIT 2000            ///< Limite de délai entre deux saisies de code PIN (en millisecondes).

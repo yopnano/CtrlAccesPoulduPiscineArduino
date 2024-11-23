@@ -41,28 +41,37 @@ void setup()
 void loop()
 {
 
+  // Gestion de la tempo 1 seconde
   tempo1s.run();
 
+  // Toutes les secondes
   if (tempo1s.ft())
   {
+    // Lecture de l'heure locale
     UTC = Rtc.now();
     synchronizeLocalTime();
   }
-
   
-
+  // Toutes les minutes
   if (tempo1s.ft(60))
   {
+    // Affichage de l'heure locale
     DEBUGLN(Local.timestamp());
+
+    // Génération du code de secours
     generateBackupCode();
   }
 
+  // Gestion des requêtes NTP
   handleNtpRequests();
 
+  // Gestion de l'échange MQTT + Bit de vie
   processMqtt(tempo1s.ft(10));
   sendHeartbeat(tempo1s.ft());
 
+  // Gestion des appareils (clavier, bouton de sortie, relais du portail)
   handleKeypadAndRfidInput();
   monitorExitButton();
   controlDoorLock(tempo1s.ft());
+
 }
