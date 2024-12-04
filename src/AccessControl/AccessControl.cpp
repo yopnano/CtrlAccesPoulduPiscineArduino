@@ -6,10 +6,10 @@
 #include "Utils.h"
 
 // Parameters
-const char EMERGENCY_BADGES[][10] PROGMEM = {
+const char EMERGENCY_BADGES[][10] = {
     "23B0991C",
     "23B0991C"};
-const char EMERGENCY_CODE[] PROGMEM = "29360";
+const char EMERGENCY_CODE[] = "29360";
 char BackupCode[] = "123456";
 unsigned int OpenDelayCode = 10;
 unsigned int OpenDelayButton = 10;
