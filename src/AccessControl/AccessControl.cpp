@@ -59,25 +59,25 @@ void generateBackupCode()
   const int month = Local.month();
 
   // Calculer A = abs(YY - MM)
-  const int A = abs(year - month);
+  // const int A = abs(year - month);
 
   // Construire les chaînes de caractères
   char Y[3];     // Année (2 chiffres)
   char M[3];     // Mois (2 chiffres)
-  char A_str[3]; // Différence (2 chiffres)
+  // char A_str[3]; // Différence (2 chiffres)
 
   // Formater les valeurs avec `snprintf`
   snprintf(Y, sizeof(Y), "%02d", year);      // Format YY
   snprintf(M, sizeof(M), "%02d", month);     // Format MM
-  snprintf(A_str, sizeof(A_str), "%02d", A); // Format A
+  // snprintf(A_str, sizeof(A_str), "%02d", A); // Format A
 
   // Construire le code final
   char code[7] = {
       Y[0],
-      A_str[0],
+      // A_str[0],
       M[0],
       Y[1],
-      A_str[1],
+      // A_str[1],
       M[1],
       '\0'};
 
