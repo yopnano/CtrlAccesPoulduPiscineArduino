@@ -18,7 +18,7 @@ DateTime DebutAcces = {0000, 6, 15, 9, 00, 00};
 DateTime FinAcces = {0000, 9, 15, 20, 00, 00};
 
 // Variable stuff
-const int PINTIMEOUT = 2000;
+const int PINTIMEOUT = 5000;
 unsigned long rfidcount = 0, pincount = 0;
 unsigned long lastKey, lastPin, lastRfid;
 bool LastExitButtonState = false;
