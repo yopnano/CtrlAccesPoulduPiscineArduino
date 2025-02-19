@@ -12,16 +12,19 @@ void setup()
 {
   // I/O Inputs
   pinMode(PIN_EXIT_BUTTON, INPUT_PULLUP);
+  pinMode(PIN_5VSB_RASPBERRY, INPUT);
 
   // I/O Outputs
   pinMode(PIN_BUZZER_KEYPAD, OUTPUT);
   pinMode(PIN_LED_KEYPAD, OUTPUT);
   pinMode(PIN_LOCK_RELAY, OUTPUT);
+  pinMode(PIN_UPS_RELAY, OUTPUT);
 
   // I/O Initial state
   digitalWrite(PIN_BUZZER_KEYPAD, HIGH);
   digitalWrite(PIN_LED_KEYPAD, HIGH);
   digitalWrite(PIN_LOCK_RELAY, HIGH);
+  digitalWrite(PIN_UPS_RELAY, LOW);
 
   // Init Objects
   Serial.begin(9600);
@@ -40,6 +43,7 @@ void setup()
 
 void loop()
 {
+    int Rpi_Voltage = analogRead(PIN_5VSB_RASPBERRY);
 
   // Gestion de la tempo 1 seconde
   tempo1s.run();
@@ -49,17 +53,32 @@ void loop()
   {
     // Lecture de l'heure locale
     UTC = Rtc.now();
-    synchronizeLocalTime();
+    synchronizeLocalTime();    
+
   }
   
-  // Toutes les minutes
-  if (tempo1s.ft(60))
+  // Toutes les 10 secondes
+  if (tempo1s.ft(10))
   {
     // Affichage de l'heure locale
     DEBUGLN(Local.timestamp());
 
     // Génération du code de secours
     generateBackupCode();
+    
+    // Affichage de la tension du raspberry
+    DEBUG(F("Rpi_Voltage "));
+    DEBUGLN(Rpi_Voltage);
+
+  }
+  
+  // Toutes les 5 minutes
+  if (tempo1s.ft(5 * 60))
+  {
+
+    // Maintiens du relais UPS, tant que l'alimentation fonctionne    
+    digitalWrite(PIN_UPS_RELAY, Rpi_Voltage < 500);
+
   }
 
   // Gestion des requêtes NTP

@@ -10,12 +10,14 @@ class Tempo;    // Déclaration avancée
 // Inputs (Entrées)
 #define PIN_D0_KEYPAD 2   ///< Broche pour l'entrée Wiegand D0 (fil vert).
 #define PIN_D1_KEYPAD 3   ///< Broche pour l'entrée Wiegand D1 (fil blanc).
-#define PIN_EXIT_BUTTON 4 ///< Broche pour le bouton de sortie.
+#define PIN_EXIT_BUTTON 7 ///< Broche pour le bouton de sortie.
+#define PIN_5VSB_RASPBERRY A5 ///< Broche pour le retour d'alimentation raspberry pi.
 
 // Outputs (Sorties)
 #define PIN_BUZZER_KEYPAD 5 ///< Broche pour le buzzer du clavier.
-#define PIN_LED_KEYPAD 7    ///< Broche pour la LED du clavier.
-#define PIN_LOCK_RELAY 8    ///< Broche pour le relais de la ventouse.
+#define PIN_LED_KEYPAD 6    ///< Broche pour la LED du clavier.
+#define PIN_LOCK_RELAY 8   ///< Broche pour le relais de la ventouse.
+#define PIN_UPS_RELAY 9    ///< Broche pour le relais de l'ups.
 
 // Parameters (Paramètres)
 extern const char EMERGENCY_BADGES[][10]; ///< Badges de déverrouillage d'urgence.
