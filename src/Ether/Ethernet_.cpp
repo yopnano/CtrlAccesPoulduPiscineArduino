@@ -19,4 +19,6 @@ void initializeEthernet()
   }
 
   DEBUGLN(F("DEBUG > Connexion Ethernet établie"));
+  DEBUG(F("DEBUG > Adresse : "));
+  DEBUGLN(Ethernet.localIP());
 }

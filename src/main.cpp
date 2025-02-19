@@ -43,7 +43,9 @@ void setup()
 
 void loop()
 {
-    int Rpi_Voltage = analogRead(PIN_5VSB_RASPBERRY);
+    
+  // Lecture de l'entrée analogique de tension raspberry
+  int Rpi_Voltage = analogRead(PIN_5VSB_RASPBERRY);
 
   // Gestion de la tempo 1 seconde
   tempo1s.run();
