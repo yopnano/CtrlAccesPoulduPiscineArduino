@@ -166,7 +166,13 @@ void onMqttMessageReceived(char *topic, byte *payload, unsigned int length)
         DEBUG(F("INFO > Réglage du Rtc à "));
         DEBUGLN(message);
         Rtc.adjust(DateTime(message));
+
+        delay(10);
+        
+        initializeRtc();
+        synchronizeLocalTime();        
         rtcFail = false;
+
         break;
 
     default:

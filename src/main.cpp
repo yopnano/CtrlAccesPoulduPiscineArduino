@@ -63,6 +63,7 @@ void loop()
   if (tempo1s.ft(10))
   {
     // Affichage de l'heure locale
+    DEBUG(F("Heure locale : "));
     DEBUGLN(Local.timestamp());
 
     // Génération du code de secours
@@ -74,16 +75,10 @@ void loop()
 
   }
   
-  // Toutes les 5 minutes
-  if (tempo1s.ft(5 * 60))
-  {
+  // Maintiens du relais UPS, tant que l'alimentation fonctionne    
+  digitalWrite(PIN_UPS_RELAY, Rpi_Voltage < 500);
 
-    // Maintiens du relais UPS, tant que l'alimentation fonctionne    
-    digitalWrite(PIN_UPS_RELAY, Rpi_Voltage < 500);
-
-  }
-
-  // Gestion des requêtes NTP
+    // Gestion des requêtes NTP
   handleNtpRequests();
 
   // Gestion de l'échange MQTT + Bit de vie

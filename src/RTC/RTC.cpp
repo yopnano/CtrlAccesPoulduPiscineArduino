@@ -32,6 +32,10 @@ void initializeRtc()
             UTC.day(),
             UTC.month(),
             UTC.year());
+    
+    DEBUG("RTC is initialized, value : ");
+    DEBUGLN(UTC.timestamp(UTC.TIMESTAMP_FULL));
+
 }
 
 void synchronizeLocalTime()
