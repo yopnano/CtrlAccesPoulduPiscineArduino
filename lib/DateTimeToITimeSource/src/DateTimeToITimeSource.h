@@ -1,7 +1,7 @@
 /*
  * File: DateTime_To_ITimeSource.h
  * Description:
- *   An Interface DateTime to NtpServer library.
+ *   An Interface DateTime to MyNtpServer library.
  * Authors: Herledan Yann <yh@gmail.com>
  * License: New BSD License
  */
@@ -12,7 +12,7 @@
 #include <RTClib.h>
 #include <ITimeSource.h>
 
-class DateTime_To_ITimeSource : public ITimeSource
+class DateTime_To_ITimeSource : public MyITimeSource
 {
 private:
     DateTime &_dt;

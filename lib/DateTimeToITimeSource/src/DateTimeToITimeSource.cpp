@@ -1,7 +1,7 @@
 /*
  * File: DateTime_To_ITimeSource.cpp
  * Description:
- *   An Interface DateTime to NtpServer library.
+ *   An Interface DateTime to MyNtpServer library.
  * Authors: Herledan Yann <yh@gmail.com>
  * License: New BSD License
  */

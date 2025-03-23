@@ -1,7 +1,7 @@
 #include "NTP.h"
 
 DateTime_To_ITimeSource source(UTC);
-NtpServer Ntp(source);
+MyNtpServer Ntp(source);
 
 void handleNtpRequests()
 {

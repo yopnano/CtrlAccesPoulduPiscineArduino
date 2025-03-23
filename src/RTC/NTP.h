@@ -3,12 +3,12 @@
 
 #pragma once
 
-#include <NtpServer.h>
+#include <MyNtpServer.h>
 #include <DateTimeToITimeSource.h>
 #include "RTC\RTC.h"
 
 extern DateTime_To_ITimeSource source;
-extern NtpServer Ntp;
+extern MyNtpServer Ntp;
 
 /**
  * @brief Gère les requêtes NTP entrantes pour synchroniser l'heure.
