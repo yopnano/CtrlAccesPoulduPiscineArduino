@@ -15645,7 +15645,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>7</texte_borne>
+              <texte_borne>6</texte_borne>
               <index_borne>0</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -15711,7 +15711,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>9</texte_borne>
+              <texte_borne>8</texte_borne>
               <index_borne>0</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -15787,7 +15787,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>9</texte_borne>
+              <texte_borne>8</texte_borne>
               <index_borne>1</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -15853,7 +15853,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>6</texte_borne>
+              <texte_borne>5</texte_borne>
               <index_borne>0</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -15897,7 +15897,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>8</texte_borne>
+              <texte_borne>7</texte_borne>
               <index_borne>0</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -15963,7 +15963,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>10</texte_borne>
+              <texte_borne>9</texte_borne>
               <index_borne>0</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -16029,7 +16029,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>11</texte_borne>
+              <texte_borne>10</texte_borne>
               <index_borne>0</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -16095,7 +16095,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>12</texte_borne>
+              <texte_borne>11</texte_borne>
               <index_borne>0</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -16161,7 +16161,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>12</texte_borne>
+              <texte_borne>11</texte_borne>
               <index_borne>1</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -16227,7 +16227,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>8</texte_borne>
+              <texte_borne>7</texte_borne>
               <index_borne>1</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -16315,7 +16315,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>6</texte_borne>
+              <texte_borne>5</texte_borne>
               <index_borne>1</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -16359,7 +16359,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>11</texte_borne>
+              <texte_borne>10</texte_borne>
               <index_borne>1</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -16447,7 +16447,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>10</texte_borne>
+              <texte_borne>9</texte_borne>
               <index_borne>1</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -16491,7 +16491,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>7</texte_borne>
+              <texte_borne>6</texte_borne>
               <index_borne>1</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -16826,7 +16826,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>2</texte_borne>
+              <texte_borne>14</texte_borne>
               <index_borne>1</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -16848,7 +16848,7 @@
               <anglet>horizontal</anglet>
               <energie>electrique</energie>
               <repartiteur>0</repartiteur>
-              <texte_borne>5</texte_borne>
+              <texte_borne>13</texte_borne>
               <index_borne>1</index_borne>
             </compo_ex>
             <compo_ex_index>0</compo_ex_index>
@@ -23823,10 +23823,11 @@
   <With_Folio1>0</With_Folio1>
   <With_Folio_bis>0</With_Folio_bis>
   <Cartouche_schema>
-    <Nom />
-    <Prenom />
-    <Titre />
-    <Commentaire />
+    <Nom>Herledan</Nom>
+    <Prenom>Yann</Prenom>
+    <Titre>Armoire électique contrôle d'accès piscine</Titre>
+    <Commentaire>Indice B</Commentaire>
+    <CheminLogo>C:\Users\yannh\Downloads\YH_DEV.jpg</CheminLogo>
     <AfficheCheminSchema>false</AfficheCheminSchema>
   </Cartouche_schema>
   <triph1>
