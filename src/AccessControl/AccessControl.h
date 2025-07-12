@@ -22,7 +22,7 @@ class Tempo;    // Déclaration avancée
 // Parameters (Paramètres)
 extern const char EMERGENCY_BADGES[][10]; ///< Badges de déverrouillage d'urgence.
 extern const char EMERGENCY_CODE[];       ///< Code de déverrouillage d'urgence.
-extern char BackupCode[];                 ///< Code de secours pour déverrouillage (format YAMYAM).
+extern char BackupCode[];                 ///< Code de secours pour déverrouillage (format YMYM).
 extern unsigned int OpenDelayCode;        ///< Temps de déverrouillage par badge ou code en secondes.
 extern unsigned int OpenDelayButton;      ///< Temps de déverrouillage par bouton en secondes.
 extern unsigned int TempoOuverture;       ///< Compteur temporaire pour contrôler la durée d'ouverture.

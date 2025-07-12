@@ -9,8 +9,8 @@
 const char EMERGENCY_BADGES[][10] = {
     "23B0991C",
     "23B0991C"};
-const char EMERGENCY_CODE[] = "29360";
-char BackupCode[] = "123456";
+const char EMERGENCY_CODE[] = "454129";
+char BackupCode[] = "2054";
 unsigned int OpenDelayCode = 10;
 unsigned int OpenDelayButton = 10;
 unsigned int TempoOuverture = 0U;
@@ -30,16 +30,16 @@ bool isAccessTimeValid()
 {
   return true;
   // Vérifier si la date actuelle est dans la plage d'accès
-  bool inDateRange = (Local.month() > DebutAcces.month() ||
-                      (Local.month() == DebutAcces.month() && Local.day() >= DebutAcces.day())) &&
-                     (Local.month() < FinAcces.month() ||
-                      (Local.month() == FinAcces.month() && Local.day() <= FinAcces.day()));
+  bool inDateRange = (Local.month() >  DebutAcces.month() ||
+                     (Local.month() == DebutAcces.month() && Local.day() >= DebutAcces.day())) &&
+                     (Local.month() <  FinAcces.month()   ||
+                     (Local.month() == FinAcces.month()   && Local.day() <= FinAcces.day()));
 
   // Vérifier si l'heure actuelle est dans la plage d'accès
-  bool inTimeRange = (Local.hour() > DebutAcces.hour() ||
-                      (Local.hour() == DebutAcces.hour() && Local.minute() >= DebutAcces.minute())) &&
-                     (Local.hour() < FinAcces.hour() ||
-                      (Local.hour() == FinAcces.hour() && Local.minute() <= FinAcces.minute()));
+  bool inTimeRange = (Local.hour() >  DebutAcces.hour() ||
+                     (Local.hour() == DebutAcces.hour() && Local.minute() >= DebutAcces.minute())) &&
+                     (Local.hour() <  FinAcces.hour()   ||
+                     (Local.hour() == FinAcces.hour()   && Local.minute() <= FinAcces.minute()));
 
   DEBUGLN(F("Trigger plage d'accès"));
   DEBUG(F("Date : "));
