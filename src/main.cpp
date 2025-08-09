@@ -7,7 +7,9 @@
 #include "AccessControl\AccessControl.h"
 #include "Utils.h"
 
-Tempo tempo1s(1000); // Tempo 1 seconde
+Tempo tempo1s(1000);           // Tempo 1 seconde
+unsigned int tempo1sRelaisUPS; // Tempo de comptage relais ups
+
 void setup()
 {
   // I/O Inputs
@@ -43,7 +45,7 @@ void setup()
 
 void loop()
 {
-    
+
   // Lecture de l'entrée analogique de tension raspberry
   int Rpi_Voltage = analogRead(PIN_5VSB_RASPBERRY);
 
@@ -55,10 +57,14 @@ void loop()
   {
     // Lecture de l'heure locale
     UTC = Rtc.now();
-    synchronizeLocalTime();    
+    synchronizeLocalTime();
 
+    if (Rpi_Voltage < 500 && tempo1sRelaisUPS < TempoRelaisOnduleur)
+      tempo1sRelaisUPS++;
+    else
+      tempo1sRelaisUPS = 0;
   }
-  
+
   // Toutes les 10 secondes
   if (tempo1s.ft(10))
   {
@@ -68,17 +74,16 @@ void loop()
 
     // Génération du code de secours
     generateBackupCode();
-    
+
     // Affichage de la tension du raspberry
     DEBUG(F("Rpi_Voltage "));
     DEBUGLN(Rpi_Voltage);
-
   }
-  
-  // Maintiens du relais UPS, tant que l'alimentation fonctionne    
-  digitalWrite(PIN_UPS_RELAY, Rpi_Voltage < 500);
 
-    // Gestion des requêtes NTP
+  // Maintiens du relais UPS, tant que l'alimentation fonctionne
+  digitalWrite(PIN_UPS_RELAY, tempo1sRelaisUPS < TempoRelaisOnduleur);
+
+  // Gestion des requêtes NTP
   handleNtpRequests();
 
   // Gestion de l'échange MQTT + Bit de vie
@@ -89,5 +94,4 @@ void loop()
   handleKeypadAndRfidInput();
   monitorExitButton();
   controlDoorLock(tempo1s.ft());
-
 }

@@ -26,6 +26,7 @@ extern char BackupCode[];                 ///< Code de secours pour déverrouill
 extern unsigned int OpenDelayCode;        ///< Temps de déverrouillage par badge ou code en secondes.
 extern unsigned int OpenDelayButton;      ///< Temps de déverrouillage par bouton en secondes.
 extern unsigned int TempoOuverture;       ///< Compteur temporaire pour contrôler la durée d'ouverture.
+extern unsigned int TempoRelaisOnduleur;  ///< Tempo de maintien du relais onduleur
 extern DateTime DebutAcces;               ///< Date et heure de début de l'accès autorisé au format yyyy, MM, dd, hh, mm, ss.
 extern DateTime FinAcces;                 ///< Date et heure de fin de l'accès autorisé au format yyyy, MM, dd, hh, mm, ss.
 
