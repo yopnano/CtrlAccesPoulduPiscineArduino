@@ -8,8 +8,6 @@
 #include "Utils.h"
 
 Tempo tempo1s(1000);           // Tempo 1 seconde
-unsigned int tempo1sRelaisUPS; // Tempo de comptage relais ups
-
 void setup()
 {
   // I/O Inputs
@@ -59,10 +57,14 @@ void loop()
     UTC = Rtc.now();
     synchronizeLocalTime();
 
-    if (Rpi_Voltage < 500 && tempo1sRelaisUPS < TempoRelaisOnduleur)
-      tempo1sRelaisUPS++;
-    else
-      tempo1sRelaisUPS = 0;
+    if (Rpi_Voltage < 500 && TempoRelaisUPS < TempsMaintienUPS)
+    {
+      TempoRelaisUPS++;
+    }
+    else if (Rpi_Voltage >= 500)
+    {
+      TempoRelaisUPS = 0;
+    }
   }
 
   // Toutes les 10 secondes
@@ -81,7 +83,7 @@ void loop()
   }
 
   // Maintiens du relais UPS, tant que l'alimentation fonctionne
-  digitalWrite(PIN_UPS_RELAY, tempo1sRelaisUPS < TempoRelaisOnduleur);
+  digitalWrite(PIN_UPS_RELAY, TempoRelaisUPS >= TempsMaintienUPS);
 
   // Gestion des requêtes NTP
   handleNtpRequests();

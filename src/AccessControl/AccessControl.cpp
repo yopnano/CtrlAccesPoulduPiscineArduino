@@ -14,7 +14,8 @@ char BackupCode[] = "2054";
 unsigned int OpenDelayCode = 10;
 unsigned int OpenDelayButton = 10;
 unsigned int TempoOuverture = 0U;
-unsigned int TempoRelaisOnduleur = 30U;
+unsigned int TempsMaintienUPS = 30U;
+unsigned int TempoRelaisUPS = 0U;
 DateTime DebutAcces = {0000, 6, 15, 9, 00, 00};
 DateTime FinAcces = {0000, 9, 15, 20, 00, 00};
 
