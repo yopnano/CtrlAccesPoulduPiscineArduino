@@ -205,7 +205,7 @@ void handleKeypadAndRfidInput()
     if (Saisie == EMERGENCY_CODE)
     {
       DEBUGLN(F("INFO > Déverrouillage d'urgence du portail"));
-      TempoOuverture = OpenDelayCode;
+      TempoOuverture = max(5, OpenDelayCode);
       clearSaisie();
       return;
     }
@@ -214,7 +214,7 @@ void handleKeypadAndRfidInput()
     if (Saisie == BackupCode || (rtcFail && Saisie == F("123456")))
     {
       DEBUGLN(F("INFO > Déverrouillage du portail code de secours"));
-      TempoOuverture = OpenDelayCode;
+      TempoOuverture = max(5, OpenDelayCode);
       clearSaisie();
       return;
     }
@@ -309,7 +309,7 @@ void monitorExitButton()
     {
       Serial.println(F("INFO > Bouton de sortie enfoncé"));
       // MqttClient.publish(PT_Button, "1");
-      TempoOuverture = OpenDelayButton;
+      TempoOuverture = max(10, OpenDelayButton);
     }
     else
     {

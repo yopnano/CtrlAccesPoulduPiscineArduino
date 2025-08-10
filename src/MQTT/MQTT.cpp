@@ -142,7 +142,7 @@ void onMqttMessageReceived(char *topic, byte *payload, unsigned int length)
             DEBUG(time);
             DEBUGLN(F(" secondes par MQTT"));
             OpenDelayCode = time;
-            TempoOuverture = OpenDelayCode;
+            TempoOuverture = max(5, OpenDelayCode);
         }
         break;
     }
