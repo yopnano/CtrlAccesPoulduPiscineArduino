@@ -79,6 +79,9 @@ void loop()
 
     // Gestion et envoi du bit de vie vers MQTT
     GestionBitVie();
+    
+  Debug.concat(F("Tension Raspberry Pi"));
+  Debug.log(LogLevel::Verbose, analogRead(PIN_5VSB_RASPBERRY));
   }
   
 
