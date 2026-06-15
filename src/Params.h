@@ -2,29 +2,30 @@
 #define Params_h
 
 #include <BeOutil.h>
-// #include <Timezone.h>
 
-// Parameters (Paramètres)
+// --- Paramètres fixes ---
+const unsigned int TPS_DEFAUT_COM = 10;                  ///< Temps avant défaut de communication série
+const char* BADGES_SECOURS[] = {"23B0991C"};             ///< Badges de déverrouillage d'urgence.
+const char* CODES_SECOURS[] = {"454129", "363844"};      ///< Code de déverrouillage d'urgence.
 
-byte MAC[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED}; ///< Adresse MAC Ethernet.
-IPAddress IP(10, 42, 0, 5);                        ///< Adresse IP Ethernet
-
-const unsigned int TpsDefCom = 10;                        ///< Temps avant défaut de communication MQTT
-const String BADGES_SECOURS[] = {"23B0991C"}; ///< Badges de déverrouillage d'urgence.
-const String CODES_SECOURS[] = {"454129", "363844"};      ///< Code de déverrouillage d'urgence.
-
-unsigned int TpsOuvertureEntree = 5;       ///< Tempo de déverrouillage par badge ou code en secondes.
+// --- Paramètres modifiables ---
+unsigned int TpsOuvertureEntree = 5;        ///< Tempo de déverrouillage par badge ou code en secondes.
 unsigned int TpsOuvertureSortie = 10;      ///< Tempo de déverrouillage par bouton en secondes.
-unsigned int ModeFctRelaisPortail = 3;      ///< Mode de fonctionnement portail 0:Fermé, 1:Ouvert, 3:Auto.
-TON TON_RelaisPortail;                     ///< Tempo de maintien du relais portail.
-TOF TOF_RelaisOndule(30 * TIME::Secondes); ///< Tempo de maintien du relais ondulé.
 
-// Définition du fuseau pour la France (CET/CEST)
-// TimeChangeRule CEST = {"CEST", Last, Sun, Mar, 2, +120}; // heure d'été
-// TimeChangeRule CET  = {"CET", Last, Sun, Oct, 3, +60};   // heure d'hiver
-// Timezone tz(CEST, CET);
+// --- Temporisations BeOutils ---
+TON TON_RelaisPortail;                      ///< Tempo de maintien du relais portail.
+TOF TOF_RelaisOndule(30 * TIME::Secondes);  ///< Tempo de maintien du relais ondulé.
 
-// DateTime DebutAcces = {2025, 6, 15, 9, 00, 00}; ///< Date et heure de début de l'accès autorisé au format yyyy, MM, dd, hh, mm, ss.
-// DateTime FinAcces = {2025, 9, 15, 20, 00, 00};  ///< Date et heure de fin de l'accès autorisé au format yyyy, MM, dd, hh, mm, ss.
+// --- Variables globales pour la communication Série ---
+char bufferReception[64];                  // Tampon léger pour lire les ordres de Node-RED
+byte indexReception = 0;
+unsigned int CompteurDefautCom = 0;
+bool DefCom = false;
+bool DefComOld = false;
+
+// --- Variables pour le Timeout Raspberry ---
+char codeEnAttente[24] = "";         // Stocke le badge lu pendant l'attente
+unsigned long chronoAttenteRaspberry = 0; 
+bool attenteReponseRaspberry = false;
 
 #endif
