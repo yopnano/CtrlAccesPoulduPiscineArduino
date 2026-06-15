@@ -12,7 +12,7 @@ bool ClavierRFID::available()
     // Gestion du TimeOut de saisie
     if (hasData() && millis() - lastKey >= PINTIMEOUT)
     {
-        log(LogLevel::Verbose, F("Timeout de saisie"));
+        Serial.println(F("LOG:Timeout de saisie au clavier"));
         clearData();
     }
 
@@ -26,16 +26,12 @@ bool ClavierRFID::available()
         {
         case wType::RFID_26:
         case wType::RFID_34:
-        {
             /* Tag RFID détecté */
             return processRFID(wcode);
-        }
 
         case wType::KEYPAD:
-        {
             /* Saisie au clavier détectée */
             return processKeyboard(wcode);
-        }
 
         default:
             clearData();
@@ -45,6 +41,7 @@ bool ClavierRFID::available()
     return false;
 }
 
+
 bool ClavierRFID::processRFID(const unsigned long wcode)
 {
     // Anti bruteforce
@@ -53,14 +50,12 @@ bool ClavierRFID::processRFID(const unsigned long wcode)
         rfidcount++;
         lastRfid = millis();
 
-        data = String(wcode, HEX);
-        data.trim();
-        data.toUpperCase();
+        // Conversion directe du code en Hexadécimal majuscule (sans allouer de String)
+        snprintf(data, sizeof(data), "%lX", wcode);
+        dataIndex = strlen(data); // Met à jour le curseur
 
-        String msg = F("Tag RFID détecté ");
-        msg += F("UID = ");
-        msg += data;
-        log(LogLevel::Info, msg);
+        Serial.print(F("LOG:Tag RFID detecte UID = "));
+        Serial.println(data);
 
         return true;
     }
@@ -75,41 +70,38 @@ bool ClavierRFID::processKeyboard(const unsigned long wkey)
     case wKey::ESCAPE:
         if (hasData())
         {
-            log(LogLevel::Info, F("Touche ESC : Effacement saisie"));
+            Serial.println(F("LOG:Touche ESC : Effacement saisie"));
             clearData();
         }
         break;
 
     case wKey::ENTER:
-
         // Anti bruteforce
         if (millis() - lastPin > PINLIMIT)
         {
             pincount++;
             lastPin = millis();
 
-            data.trim();
-            data.toUpperCase();
-
-            String msg = F("Touche Enter : Validation ");
-            msg += F("Code = ");
-            msg += data;
-            log(LogLevel::Info, msg);
+            Serial.print(F("LOG:Touche Enter : Validation Code = "));
+            Serial.println(data);
 
             return true;
         }
         break;
 
     default:
-
-        if ((wkey >= 0) && (wkey <= 9))
+        // 'wkey' étant de type unsigned, wkey >= 0 est toujours vrai, donc vérification wkey <= 9 suffit
+        if (wkey <= 9)
         {
-            data += wkey;
+            // Protection contre les débordements de tampon (Buffer Overflow)
+            if (dataIndex < sizeof(data) - 1) 
+            {
+                data[dataIndex] = '0' + wkey; // Conversion mathématique du chiffre en char ASCII
+                dataIndex++;
+                data[dataIndex] = '\0'; // Clôture systématique de la chaîne
+            }
             lastKey = millis();
-
-            log(LogLevel::Verbose, "Saisie : " + data);
         }
-
         break;
     }
 
