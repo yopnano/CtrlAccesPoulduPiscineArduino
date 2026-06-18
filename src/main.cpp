@@ -16,10 +16,10 @@ void loop()
   // 1. Rafraîchissement des instances (Automate)
   ModMain();
   
-  // 2. Caresse au Watchdog pour signaler que l'Arduino n'est pas planté
+  // 2. Reset au Watchdog pour signaler que l'Arduino n'est pas planté
   wdt_reset();
 
-  // 3. Ecoute continue et non-bloquante de Node-RED
+  // 3. Ecoute continue de Node-RED
   EcouterNodeRED();
 
   // 4. Exécution cyclique à 1Hz (Bit de vie)
@@ -79,15 +79,22 @@ void ExecuterOrdre(char* ordre)
   // Action Ouverture
   else if (strncmp(ordre, "OPEN:", 5) == 0) {
     // Le Rasp a répondu ! On annule le timeout et on vide le code en attente
-    attenteReponseRaspberry = false; 
     codeEnAttente[0] = '\0';         
+    etatCtrl = IDLE;
     
     int temps = atoi(ordre + 5); 
     if(temps < 1) temps = TpsOuvertureEntree;
     Deverrouillage(temps);
   }
-  // Actions IHM manuelles
-  else if (strncmp(ordre, "BUZZ:1", 6) == 0) BuzzerClavier.turnOn();
+  // Actions IHM
+  else if (strncmp(ordre, "BUZ:1", 5) == 0) {
+    BuzzerClavier.turnOn();
+    // Si on était en attente, Node-RED signale un refus explicite
+    if (etatCtrl == WAIT_RASPBERRY) {
+      etatCtrl = WAIT_BEFORE_LOCAL;
+      chronoCtrl = millis();
+    }
+  }
   else if (strncmp(ordre, "BUZ:0", 6) == 0) BuzzerClavier.turnOff();
   else if (strncmp(ordre, "LED:1", 5) == 0) LedClavier.turnOn();
   else if (strncmp(ordre, "LED:0", 5) == 0) LedClavier.turnOff();
@@ -122,59 +129,88 @@ void GestionBitVie()
 /// @brief Séquence de contrôle d'accès (Raspberry ou local en secours)
 void GestionControleAcces()
 {
-  // 1. Un badge ou code vient d'être saisi
-  if (LecteurEntree.available())
+  switch (etatCtrl)
   {
-    // Lecture du code en attente de traitement
-    LecteurEntree.read(codeEnAttente, sizeof(codeEnAttente));
-    
-    // Envoie de l'info à Node-RED AVANT le bip de confirmation
-    Serial.print(F("DATA:BADGE:"));
-    Serial.println(codeEnAttente);
-    
-    // On lance le chrono de 1,5 seconde
-    chronoAttenteRaspberry = millis();
-    attenteReponseRaspberry = true;
-
-    // Attente de confort PUIS bip court de confirmation de réception
-    // (Node-RED a déjà reçu le code et travaille pendant cette demi-seconde)
-    delay(500); 
-    BuzzerClavier.turnOn(); delay(100); BuzzerClavier.turnOff(); 
-  }
-
-  // 2. Surveillance non-bloquante du Timeout
-  if (attenteReponseRaspberry)
-  {
-    // Limite de temps passée à 1500 ms
-    if (millis() - chronoAttenteRaspberry >= 1500) 
-    {
-      // --- TIMEOUT ATTEINT (Le Raspberry n'a pas répondu OPEN:) ---
-      attenteReponseRaspberry = false; 
-      
-      BuzzerClavier.turnOn(); delay(100); BuzzerClavier.turnOff(); // Bip court signalant le Timeout
-      
-      // On teste les codes de secours locaux
-      bool valideLocalement = false;
-      for (byte i = 0; i < sizeof(CODES_SECOURS)/sizeof(CODES_SECOURS[0]); i++) {
-        if (strcmp(codeEnAttente, CODES_SECOURS[i]) == 0) valideLocalement = true;
+    case IDLE:
+      // 1. Un badge ou code vient d'être saisi
+      if (LecteurEntree.available())
+      {
+        LecteurEntree.read(codeEnAttente, sizeof(codeEnAttente));
+        
+        // On lance l'attente de 800ms (bip natif du clavier)
+        etatCtrl = WAIT_NATIVE_BEEP;
+        chronoCtrl = millis();
       }
-      for (byte i = 0; i < sizeof(BADGES_SECOURS)/sizeof(BADGES_SECOURS[0]); i++) {
-        if (strcmp(codeEnAttente, BADGES_SECOURS[i]) == 0) valideLocalement = true;
-      }
+      break;
 
-      if (valideLocalement) {
-        Serial.print(F("LOG:Ouverture SECOURS par code : "));
+    case WAIT_NATIVE_BEEP:
+      // Attente pour laisser passer le bip natif
+      if (millis() - chronoCtrl >= 800)
+      {
+        // 2. Bip de 50ms pour confirmer la réception
+        BuzzerClavier.turnOn();
+        etatCtrl = BEEP_CONFIRM;
+        chronoCtrl = millis();
+      }
+      break;
+
+    case BEEP_CONFIRM:
+      if (millis() - chronoCtrl >= 50)
+      {
+        BuzzerClavier.turnOff();
+        
+        // 3. Envoi de la donnée au Raspberry
+        Serial.print(F("DATA:BADGE:"));
         Serial.println(codeEnAttente);
-        Deverrouillage(TpsOuvertureEntree);
-      } 
-      else {
-        Serial.println(F("LOG:Code inconnu, acces refuse."));
-        BuzzerClavier.turnOn(); delay(500); BuzzerClavier.turnOff(); // Bip long de refus
+        
+        // On passe en attente de la réponse Node-RED (2s max)
+        etatCtrl = WAIT_RASPBERRY;
+        chronoCtrl = millis();
       }
-      
-      // Nettoyage du code en attente
-      codeEnAttente[0] = '\0';
-    }
+      break;
+
+    case WAIT_RASPBERRY:
+      // 4. Timeout de sécurité (2 secondes)
+      if (millis() - chronoCtrl >= 2000)
+      {
+        Serial.println(F("LOG:Timeout Raspberry (2s) !"));
+        
+        // Bip court d'erreur pour signaler le timeout
+        BuzzerClavier.turnOn(); delay(500); BuzzerClavier.turnOff(); 
+        
+        etatCtrl = WAIT_BEFORE_LOCAL;
+        chronoCtrl = millis();
+      }
+      break;
+
+    case WAIT_BEFORE_LOCAL:
+      // 5. Attente de 200ms après l'échec (refus explicite ou timeout)
+      if (millis() - chronoCtrl >= 2000)
+      {
+        // 6. Test des codes de secours locaux
+        bool valideLocalement = false;
+        for (byte i = 0; i < sizeof(CODES_SECOURS)/sizeof(CODES_SECOURS[0]); i++) {
+          if (strcmp(codeEnAttente, CODES_SECOURS[i]) == 0) valideLocalement = true;
+        }
+        for (byte i = 0; i < sizeof(BADGES_SECOURS)/sizeof(BADGES_SECOURS[0]); i++) {
+          if (strcmp(codeEnAttente, BADGES_SECOURS[i]) == 0) valideLocalement = true;
+        }
+
+        if (valideLocalement) {
+          Serial.print(F("LOG:Ouverture SECOURS par code : "));
+          Serial.println(codeEnAttente);
+          Deverrouillage(TpsOuvertureEntree);
+        } 
+        else {
+          Serial.println(F("LOG:Code inconnu, acces refuse."));
+          BuzzerClavier.turnOn(); delay(500); BuzzerClavier.turnOff(); // Bip long de refus définitif
+        }
+        
+        // Fin de la séquence, on remet tout à zéro
+        codeEnAttente[0] = '\0';
+        etatCtrl = IDLE;
+      }
+      break;
   }
 }
 

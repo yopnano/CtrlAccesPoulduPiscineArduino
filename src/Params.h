@@ -25,7 +25,14 @@ bool DefComOld = false;
 
 // --- Variables pour le Timeout Raspberry ---
 char codeEnAttente[24] = "";         // Stocke le badge lu pendant l'attente
-unsigned long chronoAttenteRaspberry = 0; 
-bool attenteReponseRaspberry = false;
+enum EtatControle {
+  IDLE,               // Repos
+  WAIT_NATIVE_BEEP,   // Attente 800ms (bip natif du clavier)
+  BEEP_CONFIRM,       // Bip 50ms de l'Arduino
+  WAIT_RASPBERRY,     // Attente 2s max (Validation Raspberry)
+  WAIT_BEFORE_LOCAL   // Attente 200ms (Avant test local)
+};
+EtatControle etatCtrl = IDLE;
+unsigned long chronoCtrl = 0;
 
 #endif
