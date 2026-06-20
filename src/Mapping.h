@@ -20,7 +20,7 @@
 
 
 // --- INSTANCES BE OUTILS ---
-LioTorIn BpSortie(PIN_EXIT_BUTTON, INPUT_PULLUP, true);
+LioTorIn BpSortie(PIN_EXIT_BUTTON, false, true);
 Trigger TrigBpSortie;
 
 LioTorOut BuzzerClavier(PIN_BUZZER_KEYPAD, true);
